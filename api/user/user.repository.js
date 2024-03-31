@@ -1,0 +1,1 @@
+exports.signUp = `INSERT INTO user (userId, userPw) VALUES (?, ?)`;
