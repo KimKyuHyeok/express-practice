@@ -12,3 +12,11 @@ exports.signUp = async (req, res, next) => {
         res.status(500).json({ success: false, message: 'signUp failed' });
     }
 };
+
+exports.login = async (req, res, next) => {
+    try {
+
+    } catch (error) {
+        
+    }
+}
