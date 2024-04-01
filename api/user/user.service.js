@@ -30,17 +30,22 @@ exports.signUp = async (userId, userPw) => {
 
 exports.login = async (userId, userPw) => {
     try {
-        const userData = await db.query(userRepository.getUserById, [userId]);
+        const userData = await db.query(userRepository.getUserByUserId, [userId]);
+
+        console.log(userData[0]);
 
         if (!userData || !userData.length) {
+            console.log("??????");
             return false;
         }
 
         // DB에 저장된 비밀번호 부분
-        const hashedPassword = userData[0].password;
+        const hashedPassword = userData[0].userPw;
+
+        console.log(hashedPassword.toString());
 
         // 비밀번호 검증
-        const passwordMatch = await comparePassword(inputPassword, hashedPassword);
+        const passwordMatch = await comparePassword(userPw, hashedPassword);
 
         if (passwordMatch) {
             return true;
@@ -48,6 +53,6 @@ exports.login = async (userId, userPw) => {
             return false;
         }
     } catch (error) {
-        throw error;
+        console.error("에러 발생", error);
     }
 }
