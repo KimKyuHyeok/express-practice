@@ -21,7 +21,7 @@ const comparePassword = async (inputPassword, hashedPassword) => {
 exports.signUp = async (userId, userPw) => {
     try {
         const hashedPassword = await createHashedPassword(userPw);
-        await db.query(userRepository.signUp, [userId, hashedPassword]);
+        await db.promise().query(userRepository.signUp, [userId, hashedPassword]);
 
     } catch (error) {
         throw error;
@@ -30,9 +30,7 @@ exports.signUp = async (userId, userPw) => {
 
 exports.login = async (userId, userPw) => {
     try {
-        const userData = await db.query(userRepository.getUserByUserId, [userId]);
-
-        console.log(userData[0]);
+        const userData = await db.promise().query(userRepository.getUserByUserId, [userId]);
 
         if (!userData || !userData.length) {
             console.log("??????");
@@ -40,9 +38,7 @@ exports.login = async (userId, userPw) => {
         }
 
         // DB에 저장된 비밀번호 부분
-        const hashedPassword = userData[0].userPw;
-
-        console.log(hashedPassword.toString());
+        const hashedPassword = userData[0][0].userPw;
 
         // 비밀번호 검증
         const passwordMatch = await comparePassword(userPw, hashedPassword);

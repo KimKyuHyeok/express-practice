@@ -16,6 +16,7 @@ exports.signUp = async (req, res, next) => {
 exports.login = async (req, res, next) => {
     try {
         const { userId, userPw } = req.body;
+        console.log(req.body)
 
         const result = await userService.login(userId, userPw);
 
